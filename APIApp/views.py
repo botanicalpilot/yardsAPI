@@ -1,18 +1,35 @@
 from django.shortcuts import render
 from .models import APIPlantRecord
-from rest_framework import viewsets, renderers
+from rest_framework import viewsets, renderers, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .serializers import APIAppSerializer
+from django.contrib.auth.models import User
+from .serializers import APIAppSerializer, UserSerializer
+from django_filters import rest_framework as filters
+
+class APIAppSearch(filters.FilterSet):
+    # search_fields = ['scientificNameAuthor', 'nationalCommonName', 'family', ]
+    class Meta:
+        model = APIPlantRecord
+        fields = {
+            'scientificNameAuthor':['icontains']
+        }
+
+
 
 class APIAppViewSet(viewsets.ModelViewSet):
     queryset = APIPlantRecord.objects.all()
     serializer_class = APIAppSerializer
+    filterset_class = APIAppSearch
 
-    # @action(detail=False, renderer_classes=[renderers.StaticHTMLRenderer])
-    # def highlight(self, request, *args, **kwargs):
-    #     plant = self.get_object()
-    #     return Response(plant.highlighted)
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+    
 
  
