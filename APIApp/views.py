@@ -14,7 +14,7 @@ class APIAppSearch(filters.FilterSet):
         fields = {
             'scientificNameAuthor':['icontains'],
             'nationalCommonName':['icontains'],
-            'family':['icontains']
+            'family':['icontains'],
             'nativeState':['iexact']
 
         }
