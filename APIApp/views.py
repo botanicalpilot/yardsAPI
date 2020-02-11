@@ -12,10 +12,13 @@ class APIAppSearch(filters.FilterSet):
     class Meta:
         model = APIPlantRecord
         fields = {
+            'symbol':['iexact'],
             'scientificNameAuthor':['icontains'],
             'nationalCommonName':['icontains'],
             'family':['icontains'],
-            'nativeState':['iexact']
+            'nativeState':['iexact'],
+            'isInvasive':['iexact'],
+
 
         }
 
